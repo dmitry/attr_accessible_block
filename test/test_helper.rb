@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'test/unit'
 
-gem 'activesupport', '~> 2.3'
 gem 'activerecord', '~> 2.3'
 
 require 'active_support'

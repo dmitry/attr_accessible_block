@@ -3,6 +3,8 @@ AttrAccessibleBlock
 
 This is an ActiveRecord plugin with possibility to define block inside the `attr_accessible` class method.
 
+Tested with Rails 2.3.
+
 Because of block, it's possible to define accessibles for instances, nor just for the class level.
 
 It's also still possible to define class level accessibles, so an old `attr_accessible :name` will work.
@@ -14,6 +16,11 @@ Main features:
 * Possibility to add permanently total accessibility in defined condition (eg.user.admin?) `AttrAccessible.always_accessible { user.admin? }`
 
 See an examples to understand the conception.
+
+Installation
+============
+
+    script/plugin install git://github.com//dmitry/attr_accessible_block.git
 
 Examples
 ========
