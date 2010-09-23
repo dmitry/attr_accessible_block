@@ -1,7 +1,7 @@
 require 'test_helper'
 
-AttrAccessible.before_options :user, lambda { User.current || User.new }
-AttrAccessible.always_accessible { 'admin' == user.role }
+ActiveRecord::AttrAccessible.before_options :user, lambda { User.current || User.new }
+ActiveRecord::AttrAccessible.always_accessible { 'admin' == user.role }
 
 class AttrAccessibleBlockTest < Test::Unit::TestCase
   def setup
@@ -49,5 +49,19 @@ class AttrAccessibleBlockTest < Test::Unit::TestCase
     user.attributes = {:email => 'new@new.com'}
     assert user.save
     assert_equal 'new@new.com', user.email
+  end
+
+  def test_simple_attr_accessible_should_work_as_expected
+    l = Location.create(:name => 'name', :code => 'code')
+    assert !l.valid?
+    assert_equal 'name', l.name
+    assert_equal nil, l.code
+    l.update_attribute(:code, 'code')
+    assert l.valid?
+    assert_equal 'code', l.code
+    l.code = 'changed'
+    l.save
+    assert l.valid?
+    assert_equal 'changed', l.code
   end
 end

@@ -10,6 +10,11 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string :first_name, :null => false
     t.string :last_name, :null => false
   end
+
+  create_table :locations, :force => true do |t|
+    t.string :name, :null => false
+    t.string :code, :null => false
+  end
 end
 
 class User < ActiveRecord::Base
@@ -44,4 +49,10 @@ class Profile < ActiveRecord::Base
   belongs_to :user
 
   validates_presence_of :first_name, :last_name
+end
+
+class Location < ActiveRecord::Base
+  attr_accessible :name
+
+  validates_presence_of :name, :code  
 end

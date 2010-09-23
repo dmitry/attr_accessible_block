@@ -9,8 +9,7 @@ require 'logger'
 
 require 'attr_accessible_block'
 
-#ActiveRecord::Base.logger = Logger.new(STDOUT)
-ActiveRecord::Base.logger = nil
+ActiveRecord::Base.logger = Logger.new("test.log")
 ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
 
 def setup_db

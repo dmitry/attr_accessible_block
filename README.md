@@ -12,8 +12,8 @@ It's also still possible to define class level accessibles, so an old `attr_acce
 Main features:
 
 * Possibility to add an accessible attributes based on current `record` state (eg. record.new_record?)
-* Possibility to add additional variables and use it in the block (eg. user.role) `AttrAccessible.before_options :user, lambda { User.current || User.new }`
-* Possibility to add permanently total accessibility in defined condition (eg.user.admin?) `AttrAccessible.always_accessible { user.admin? }`
+* Possibility to add additional variables and use it in the block (eg. user.role) `ActiveRecord::AttrAccessible.before_options :user, lambda { User.current || User.new }`
+* Possibility to add permanently total accessibility in defined condition (eg.user.admin?) `ActiveRecord::AttrAccessible.always_accessible { user.admin? }`
 
 See an examples to understand the conception.
 
@@ -62,7 +62,7 @@ How do I add something similar to `record`, for example I want to check current 
 
 Easy, with `sentient_user` gem and add the code to the `config/initializers/plugins.rb` file:
 
-    AttrAccessible.before_options :user, lambda { User.current || User.new }
+    ActiveRecord::AttrAccessible.before_options :user, lambda { User.current || User.new }
 
 Now `user` method available, you can check:
 
@@ -76,7 +76,7 @@ What if I want to provide an total accessibility for the admin user?
 
 Just add this code to the `config/initializers/plugins.rb` file:
 
-    AttrAccessible.always_accessible { user.admin? }
+    ActiveRecord::AttrAccessible.always_accessible { user.admin? }
 
 For more answers on your questions you can look into tests and source code.
 

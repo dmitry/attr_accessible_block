@@ -6,7 +6,7 @@ class ActiveRecord::Base
     if block_given?
       self.superclass.send :alias_method, :old_attributes=, :attributes=
       define_method :attributes= do |attrs|
-        AttrAccessible.new(attrs, self, &block)
+        ActiveRecord::AttrAccessible.new(attrs, self, &block)
 
         send(:old_attributes=, attrs)
       end
@@ -17,7 +17,7 @@ class ActiveRecord::Base
 end
 
 
-class AttrAccessible < Array
+class ActiveRecord::AttrAccessible < Array
   attr_reader :attrs, :record
 
   def initialize(attrs, record, &block)
