@@ -1,7 +1,7 @@
 require 'test_helper'
 
-ActiveRecord::AttrAccessible.before_options :user, lambda { User.current || User.new }
-ActiveRecord::AttrAccessible.always_accessible { 'admin' == user.role }
+ActiveRecord::AttrAccessibleBlock.before_options :user, lambda { User.current || User.new }
+ActiveRecord::AttrAccessibleBlock.always_accessible { 'admin' == user.role }
 
 class AttrAccessibleBlockTest < Test::Unit::TestCase
   def setup
@@ -40,6 +40,21 @@ class AttrAccessibleBlockTest < Test::Unit::TestCase
     user = User.create(:email => 'test@test.com', :password => 'test')
     assert user.update_attributes(:email => 'new@new.com')
     assert_equal 'test@test.com', user.email
+  end
+
+  def test_should_work_attr_accessible_question_with_block
+    user = User.new(:email => 'test@test.com', :password => 'test')
+    assert_equal true, user.attr_accessible?(:email)
+    assert_equal true, user.attr_accessible?(:password)
+    user.save
+    assert_equal false, user.attr_accessible?(:email)
+    assert_equal true, user.attr_accessible?(:password)
+  end
+
+  def test_should_work_attr_accessible_question_without_block
+    l = Location.new(:name => 'name', :code => 'code')
+    assert_equal true, l.attr_accessible?(:name)
+    assert_equal false, l.attr_accessible?(:code)
   end
 
   def test_should_access_to_before_options_reader
