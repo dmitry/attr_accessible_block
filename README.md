@@ -1,5 +1,5 @@
-AttrAccessibleBlock
-===================
+AttrAccessibleBlock 0.2
+=======================
 
 This is an ActiveRecord plugin with possibility to define block inside the `attr_accessible` class method.
 
@@ -85,7 +85,7 @@ Just add this code to the `config/initializers/plugins.rb` file:
 
     ActiveRecord::AttrAccessibleBlock.always_accessible { user.admin? }
 
-NOTICE: when using attr_accessible as a block, then no second parameter is available for the `attributes=` method (guard_protected_attributes = true). Instead use power of blocks!
+NOTICE: when using attr_accessible as a block, then no second parameter is available for the `attributes=` method (guard_protected_attributes = true). Instead use power of blocks! Also do not use attr_protected, because it's bad :)
 
 Should be STI compatible, but haven't tested yet. Need's feedback on this feature. Feel free to contact with me if something goes wrong.
 
