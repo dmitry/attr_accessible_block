@@ -22,7 +22,7 @@ See an examples to understand the conception.
 Installation
 ============
 
-    script/plugin install git://github.com//dmitry/attr_accessible_block.git
+    gem install attr_accessible_block
 
 Examples
 ========
