@@ -14,11 +14,11 @@ Jeweler::Tasks.new do |gem|
   gem.name = "attr_accessible_block"
   gem.homepage = "http://github.com/dmitry/attr_accessible_block"
   gem.license = "MIT"
-  gem.summary = %Q{Attribute accessible block (attr_accessible with a block, dynamic)}
-  gem.description = %Q{Now it's possible to change attr_accessible using definition of the required accessible attributes in a block.}
+  gem.summary = %Q{Attribute accessible block (attr_accessible with a dynamic block possibility)}
+  gem.description = %Q{Convinient possibility to change attr_accessible on the fly, using definition of the required accessible attributes in a block.}
   gem.email = "dmitry.polushkin@gmail.com"
   gem.authors = ["Dmitry Polushkin"]
-  gem.version = '0.2.0'
+  gem.version = '0.2.1'
   gem.add_runtime_dependency 'activerecord', '>= 2.3.5'
 end
 Jeweler::RubygemsDotOrgTasks.new
