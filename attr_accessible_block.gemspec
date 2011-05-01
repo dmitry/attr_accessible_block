@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{attr_accessible_block}
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dmitry Polushkin"]
-  s.date = %q{2011-01-16}
-  s.description = %q{Now it's possible to change attr_accessible using definition of the required accessible attributes in a block.}
+  s.date = %q{2011-05-01}
+  s.description = %q{Convinient possibility to change attr_accessible on the fly, using definition of the required accessible attributes in a block.}
   s.email = %q{dmitry.polushkin@gmail.com}
   s.extra_rdoc_files = [
     "README.md"
@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
     "MIT-LICENSE",
     "README.md",
     "Rakefile",
+    "attr_accessible_block.gemspec",
     "init.rb",
     "install.rb",
     "lib/attr_accessible_block.rb",
@@ -33,8 +34,8 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/dmitry/attr_accessible_block}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Attribute accessible block (attr_accessible with a block, dynamic)}
+  s.rubygems_version = %q{1.5.2}
+  s.summary = %q{Attribute accessible block (attr_accessible with a dynamic block possibility)}
   s.test_files = [
     "test/schema.rb",
     "test/test_attr_accessible_block.rb",
@@ -42,7 +43,6 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
