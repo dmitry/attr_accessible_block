@@ -1,7 +1,6 @@
 require 'test_helper'
 
-ActiveRecord::AttrAccessibleBlock.before_options :user, lambda { User.current || User.new }
-ActiveRecord::AttrAccessibleBlock.always_accessible { 'admin' == user.role }
+ActiveRecord::AttrAccessibleBlock.add_variable(:user) { User.current || User.new }
 
 class AttrAccessibleBlockTest < Test::Unit::TestCase
   def setup
@@ -26,6 +25,10 @@ class AttrAccessibleBlockTest < Test::Unit::TestCase
   end
 
   def test_should_always_accessible
+    assert_nil ActiveRecord::AttrAccessibleBlock.send(:class_variable_get, :@@always_accessible)
+    ActiveRecord::AttrAccessibleBlock.always_accessible { 'admin' == user.role }
+    assert_not_nil ActiveRecord::AttrAccessibleBlock.send(:class_variable_get, :@@always_accessible)
+
     user = User.new(:email => 'test@test.com', :password => 'test', :profile_attributes => {:first_name => 'first name', :last_name => 'last name'})
     user.role = 'admin'
     assert user.save
@@ -34,6 +37,9 @@ class AttrAccessibleBlockTest < Test::Unit::TestCase
     assert_equal 'first name', user.profile.first_name
     assert user.update_attributes(:profile_attributes => {:id => user.profile.id, :first_name => 'first'})
     assert_equal 'first', user.profile.first_name
+
+    ActiveRecord::AttrAccessibleBlock.send(:class_variable_set, :@@always_accessible, nil)
+    assert_nil ActiveRecord::AttrAccessibleBlock.send(:class_variable_get, :@@always_accessible)
   end
 
   def test_should_change_only_on_create
@@ -57,7 +63,7 @@ class AttrAccessibleBlockTest < Test::Unit::TestCase
     assert_equal false, l.attr_accessible?(:code)
   end
 
-  def test_should_access_to_before_options_reader
+  def test_should_access_to_add_variable_reader
     user = User.new(:email => 'test@test.com', :password => 'test', :profile_attributes => {:first_name => 'first name', :last_name => 'last name'})
     user.role = 'manager'
     assert user.save

@@ -1,5 +1,5 @@
-AttrAccessibleBlock 0.2
-=======================
+AttrAccessibleBlock 0.2.1
+=========================
 
 This is an ActiveRecord plugin with possibility to define block inside the `attr_accessible` class method.
 
@@ -12,7 +12,7 @@ It's also still possible to define class level accessibles, so an old `attr_acce
 Main features:
 
 * Possibility to add an accessible attributes based on current `record` state (eg. record.new_record?)
-* Possibility to add additional variables and use it in the block (eg. user.role) `ActiveRecord::AttrAccessibleBlock.before_options :user, lambda { User.current || User.new }`
+* Possibility to add additional variables and use it in the block (eg. user.role) `ActiveRecord::AttrAccessibleBlock.add_variable(:user) { User.current || User.new }`
 * Possibility to add permanently total accessibility in defined condition (eg.user.admin?) `ActiveRecord::AttrAccessibleBlock.always_accessible { user.admin? }`
 
 Also it's possible to check directly is attribute mass-assignable or no using `attr_accessible?` instance method.
@@ -69,7 +69,7 @@ How do I add something similar to `record`, for example I want to check current 
 
 Easy, with `sentient_user` gem and add the code to the `config/initializers/plugins.rb` file:
 
-    ActiveRecord::AttrAccessibleBlock.before_options :user, lambda { User.current || User.new }
+    ActiveRecord::AttrAccessibleBlock.add_variable(:user) { User.current || User.new }
 
 Now `user` method available, you can check:
 

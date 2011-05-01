@@ -38,16 +38,21 @@ end
 class ActiveRecord::AttrAccessibleBlock < Array
   attr_reader :attrs, :record
 
+  @@variables = {}
+  @@always_accessible = nil
+
   def initialize(attrs, record, &block)
     @attrs = attrs
 
-    @@before_options.each do |name, func|
+    @@variables.each do |name, func|
       instance_variable_set("@#{name}", func.call)
     end
 
     @record = record
 
-    unless instance_eval(&@@always_accessible)
+    always_accessible = (@@always_accessible ? instance_eval(&@@always_accessible) : false)
+
+    unless always_accessible
       instance_eval(&block)
 
       flatten!
@@ -55,9 +60,8 @@ class ActiveRecord::AttrAccessibleBlock < Array
     end
   end
 
-  def self.before_options(name, func)
-    @@before_options ||= {}
-    @@before_options[name] = func
+  def self.add_variable(name, &block)
+    @@variables[name] = block
     attr_reader name
   end
 
