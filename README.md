@@ -1,4 +1,4 @@
-AttrAccessibleBlock 0.2.1
+AttrAccessibleBlock 0.2.2
 =========================
 
 This is an ActiveRecord plugin with possibility to define block inside the `attr_accessible` class method.
@@ -49,8 +49,8 @@ Now it's possible to do it easier:
 
     class User < ActiveRecord::Base
       attr_accessible do
-        self << [:password, :password_confirmation]
-        self << :email if record.new_record?
+        add [:password, :password_confirmation]
+        add :email if record.new_record?
       end
     end
 
@@ -74,9 +74,9 @@ Easy, with `sentient_user` gem and add the code to the `config/initializers/plug
 Now `user` method available, you can check:
 
     attr_accessible do
-      self << [:password, :password_confirmation]
-      self << :email if record.new_record? || user.manager?
-      self << [:some_secret_fields, :another] if user.manager?
+      add [:password, :password_confirmation]
+      add :email if record.new_record? || user.manager?
+      add [:some_secret_fields, :another] if user.manager?
     end
 
 What if I want to provide an total accessibility for the admin user?

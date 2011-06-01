@@ -19,8 +19,8 @@ end
 
 class User < ActiveRecord::Base
   attr_accessible do
-    self << [:password, :profile_attributes]
-    self << :email if record.new_record? || 'manager' == user.role
+    add [:password, :profile_attributes]
+    add :email if record.new_record? || 'manager' == user.role
   end
 
   has_one :profile
@@ -43,7 +43,7 @@ end
 
 class Profile < ActiveRecord::Base
   attr_accessible do
-    self << [:first_name, :last_name] if record.new_record?
+    add [:first_name, :last_name] if record.new_record?
   end
 
   belongs_to :user

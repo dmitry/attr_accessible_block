@@ -18,7 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{Convinient possibility to change attr_accessible on the fly, using definition of the required accessible attributes in a block.}
   gem.email = "dmitry.polushkin@gmail.com"
   gem.authors = ["Dmitry Polushkin"]
-  gem.version = '0.2.1'
+  gem.version = '0.2.2'
   gem.add_runtime_dependency 'activerecord', '>= 2.3.5'
 end
 Jeweler::RubygemsDotOrgTasks.new

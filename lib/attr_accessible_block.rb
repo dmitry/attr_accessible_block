@@ -60,6 +60,10 @@ class ActiveRecord::AttrAccessibleBlock < Array
     end
   end
 
+  def add(attrs)
+    self << attrs
+  end
+
   def self.add_variable(name, &block)
     @@variables[name] = block
     attr_reader name
