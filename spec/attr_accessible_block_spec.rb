@@ -17,7 +17,7 @@ class BaseModel
   end
 
   def update_attribute(name, value)
-    multi = (name.match(/^(.+)\(/))
+    multi = (name.to_s.match(/^(.+)\(/))
     name = multi[1] if multi
 
     send(:"#{name}=", value)
