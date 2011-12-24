@@ -1,11 +1,11 @@
-AttrAccessibleBlock 0.2.2
+AttrAccessibleBlock 0.3.0
 =========================
 
-This is an ActiveRecord plugin with possibility to define block inside the `attr_accessible` class method.
+> If you need same functionallity for the Rails 2.3 or Rails 3.0, then use v0.2.2, it's fully tested and ready for this oldies. New version is total rewrite of the previous plugin, but API is the same.
 
-Tested with Rails 2.3 and 3.0
+This is an ActiveModel plugin with possibility to define block inside the `attr_accessible` class method.
 
-Because of block, it's possible to define accessibles for instances, nor just for the class level.
+Because of block, it's possible to define accessibles for instances, not just for the class level.
 
 It's also still possible to define class level accessibles, so an old `attr_accessible :name` will work.
 
@@ -91,4 +91,6 @@ Should be STI compatible, but haven't tested yet. Need's feedback on this featur
 
 For more answers on your questions you can look into tests and source code.
 
-Copyright (c) 2010 Dmitry Polushkin, released under the MIT license
+Used on http://tenerife.by
+
+Copyright (c) 2012 Dmitry Polushkin, released under the MIT license
