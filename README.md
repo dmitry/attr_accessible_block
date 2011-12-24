@@ -62,14 +62,14 @@ And on user update changing of email will be rejected because of `new_record?` m
 
 Sometimes you may need to check is attribute of model assignable or no (this method mostly interesting when doing form inputs). You can do it with using `attr_accessible?` method:
 
-    user.assignable?(:email) # returns false
-    user.assignable?(:password) # returns true
+    user.attr_accessible?(:email) # returns false
+    user.attr_accessible?(:password) # returns true
 
 How do I add something similar to `record`, for example I want to check current users role?
 
 Easy, with `sentient_user` gem and add the code to the `config/initializers/plugins.rb` file:
 
-    ActiveRecord::AttrAccessibleBlock.add_variable(:user) { User.current || User.new }
+    ActiveModel::MassAssignmentSecurity::WhiteListBlock.add_variable(:user) { User.current || User.new }
 
 Now `user` method available, you can check:
 
@@ -83,7 +83,7 @@ What if I want to provide an total accessibility for the admin user?
 
 Just add this code to the `config/initializers/plugins.rb` file:
 
-    ActiveRecord::AttrAccessibleBlock.always_accessible { user.admin? }
+    ActiveModel::MassAssignmentSecurity::WhiteListBlock.always_accessible { user.admin? }
 
 NOTICE: when using attr_accessible as a block, then no second parameter is available for the `attributes=` method (guard_protected_attributes = true). Instead use power of blocks! Also do not use attr_protected, because it's bad :)
 
