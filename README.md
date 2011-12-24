@@ -1,4 +1,4 @@
-AttrAccessibleBlock 0.3.0
+AttrAccessibleBlock 0.3.1
 =========================
 
 [![travis-ci status](https://secure.travis-ci.org/dmitry/attr_accessible_block.png)](http://travis-ci.org/dmitry/attr_accessible_block)
@@ -87,9 +87,13 @@ Just add this code to the `config/initializers/plugins.rb` file:
 
     ActiveModel::MassAssignmentSecurity::WhiteListBlock.always_accessible { user.admin? }
 
-NOTICE: when using attr_accessible as a block, then no second parameter is available for the `attributes=` method (guard_protected_attributes = true). Instead use power of blocks! Also do not use attr_protected, because it's bad :)
+It works even with standard `attr_accessible`, look into specs to see behaviour.
+
+> NOTE: if you are getting `stack level too deep` then you have recursive call of the model object in `always_accessible` or `add_variable` blocks. Try to avoid it.
 
 Should be STI compatible, but haven't tested yet. Need's feedback on this feature. Feel free to contact with me if something goes wrong.
+
+And there is more, you always still can use old implementation of the `attr_accessible`, just use `old_attr_accessible` method in your models.
 
 For more answers on your questions you can look into tests and source code.
 

@@ -29,8 +29,10 @@ class User < BaseModel
 
   attr_accessible :email, :password, :date
 
+  @@user = User.new
+
   def self.current
-    User.new
+    @@user
   end
 end
 
@@ -53,6 +55,16 @@ describe AttrAccessibleBlock do
     user.email.should eq 'test@test.com'
     user.date.should eq '10'
     user.role.should be_nil
+  end
+
+  it "should have standard static attr_accessible that always accessible" do
+    u = User.new.tap { |u| u.role = :admin }
+    User.should_receive(:current).twice.and_return(u)
+    user = User.new(:email => 'test@test.com', :password => 'test', 'date(i0)' => '10', :role => 'admin')
+    user.password.should eq 'test'
+    user.email.should eq 'test@test.com'
+    user.date.should eq '10'
+    user.role.should eq 'admin'
   end
 
   it "should have block attr_accessible" do

@@ -5,14 +5,11 @@ module ActiveModel::MassAssignmentSecurity
     alias_method :old_attr_accessible, :attr_accessible
 
     def attr_accessible(*attributes, &block)
-      if block_given?
-        class_attribute(:attr_accessible_block)
-        self.attr_accessible_block = block
+      class_attribute(:attr_accessible_block)
 
-        include InstanceMethods
-      else
-        old_attr_accessible(*attributes)
-      end
+      self.attr_accessible_block = (block_given? ? block : proc { add attributes })
+
+      include InstanceMethods
     end
 
     module InstanceMethods
