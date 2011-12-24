@@ -3,9 +3,11 @@ AttrAccessibleBlock 0.3.1
 
 [![travis-ci status](https://secure.travis-ci.org/dmitry/attr_accessible_block.png)](http://travis-ci.org/dmitry/attr_accessible_block)
 
-> If you need same functionallity for the Rails 2.3 or Rails 3.0, then use v0.2.2, it's fully tested and ready for this oldies. New version is total rewrite of the previous plugin, but API is the same.
+Tested on Rubies: 1.8.7, 1.9.2 and 1.9.3, thanks to Travis!
 
-This is an ActiveModel plugin with possibility to define block inside the `attr_accessible` class method.
+> If you need same functionallity for the Rails 2.3 or Rails 3.0, then use v0.2.2, it's fully tested and ready for this oldies. New version is total rewrite of the previous plugin, but API is the same, so it's easy to migrate if needed.
+
+This is an ActiveModel plugin with possibility to define block inside the `attr_accessible` class method. `attr_protected` not supported.
 
 Because of block, it's possible to define accessibles for instances, not just for the class level.
 
@@ -13,13 +15,12 @@ It's also still possible to define class level accessibles, so an old `attr_acce
 
 Main features:
 
-* Possibility to add an accessible attributes based on current `record` state (eg. record.new_record?)
-* Possibility to add additional variables and use it in the block (eg. user.role) `ActiveRecord::AttrAccessibleBlock.add_variable(:user) { User.current || User.new }`
-* Possibility to add permanently total accessibility in defined condition (eg.user.admin?) `ActiveRecord::AttrAccessibleBlock.always_accessible { user.admin? }`
+* Add an accessible attributes based on current `record` state (eg. record.new_record?)
+* Add additional variables and use it in the block (eg. current user) `ActiveModel::MassAssignmentSecurity::WhiteListBlock.add_variable(:user) { User.current || User.new }`
+* Add permanently full accessibility on defined condition (eg.user.admin?) `ActiveModel::MassAssignmentSecurity::WhiteListBlock.always_accessible { user.admin? }`
+* Check is attribute mass-assignable or no using `attr_accessible?` instance method, that returns boolean value.
 
-Also it's possible to check directly is attribute mass-assignable or no using `attr_accessible?` instance method.
-
-See an examples to understand the conception.
+See an examples to understand the conception or specs.
 
 Installation
 ============
@@ -99,4 +100,4 @@ For more answers on your questions you can look into tests and source code.
 
 Used on http://tenerife.by
 
-Copyright (c) 2012 Dmitry Polushkin, released under the MIT license
+Copyright (c) 2010-2012 Dmitry Polushkin, released under the MIT license
