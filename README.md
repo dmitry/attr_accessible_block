@@ -1,6 +1,8 @@
 AttrAccessibleBlock 0.3.0
 =========================
 
+[![travis-ci status](https://secure.travis-ci.org/dmitry/attr_accessible_block.png)](http://travis-ci.org/dmitry/attr_accessible_block)
+
 > If you need same functionallity for the Rails 2.3 or Rails 3.0, then use v0.2.2, it's fully tested and ready for this oldies. New version is total rewrite of the previous plugin, but API is the same.
 
 This is an ActiveModel plugin with possibility to define block inside the `attr_accessible` class method.
