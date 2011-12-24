@@ -1,81 +1,87 @@
-class ActiveRecord::Base
-  class << self
-    alias_method :old_attr_accessible, :attr_accessible
-  end
-  def self.attr_accessible(*attributes, &block)
-    if block_given?
-      write_inheritable_attribute(:attr_accessible_block, block)
-      self.superclass.send :alias_method, :old_attributes=, :attributes=
-      define_method :attributes= do |attrs|
-        ActiveRecord::AttrAccessibleBlock.new(attrs, self, &block)
+require "attr_accessible_block/version"
 
-        send(:old_attributes=, attrs)
+module ActiveModel::MassAssignmentSecurity
+  module ClassMethods
+    alias_method :old_attr_accessible, :attr_accessible
+
+    def attr_accessible(*attributes, &block)
+      if block_given?
+        class_attribute(:attr_accessible_block)
+        self.attr_accessible_block = block
+
+        include InstanceMethods
+      else
+        old_attr_accessible(*attributes)
       end
-    else
-      old_attr_accessible(*attributes)
+    end
+
+    module InstanceMethods
+      def sanitize_for_mass_assignment(attributes, role = :default)
+        mass_assignment_authorizer.sanitize(attributes, self)
+      end
+
+      def mass_assignment_authorizer
+        WhiteListBlock.new(&self.class.attr_accessible_block)
+      end
     end
   end
 
   def attr_accessible?(attribute)
-    klass = self.class
-    block = klass.read_inheritable_attribute(:attr_accessible_block)
-    if block
-      attributes = {attribute => nil}
-      ActiveRecord::AttrAccessibleBlock.new(attributes, self, &block)
-      attributes.has_key?(attribute)
-    else
-      # rails 2/3 compatibility
-      if klass.respond_to?(:accessible_attributes)
-        klass.accessible_attributes.include?(attribute.to_s)
-      else
-        klass._accessible_attributes.include?(attribute)
+    block = self.class.attr_accessible_block
+    attributes = WhiteListBlock.new(&block).sanitize({attribute => send(attribute)}, self)
+    attributes.has_key?(attribute)
+  end
+
+
+  class WhiteListBlock < PermissionSet
+    attr_reader :attributes, :record
+
+    @@variables = {}
+    @@always_accessible = nil
+
+    def sanitize(attributes, record)
+      @attributes = attributes
+
+      @@variables.each do |name, func|
+        instance_variable_set("@#{name}", func.call)
       end
-    end
-  end
-end
 
+      @record = record
 
-class ActiveRecord::AttrAccessibleBlock < Array
-  attr_reader :attrs, :record
+      always_accessible = (@@always_accessible ? instance_eval(&@@always_accessible) : false)
 
-  @@variables = {}
-  @@always_accessible = nil
+      unless always_accessible
+        instance_eval(&@block)
 
-  def initialize(attrs, record, &block)
-    @attrs = attrs
+        flatten!
+        reject_attributes!
+      end
 
-    @@variables.each do |name, func|
-      instance_variable_set("@#{name}", func.call)
+      @attributes
     end
 
-    @record = record
-
-    always_accessible = (@@always_accessible ? instance_eval(&@@always_accessible) : false)
-
-    unless always_accessible
-      instance_eval(&block)
-
-      flatten!
-      reject_attrs!
+    def initialize(&block)
+      @block = block
+      super
     end
-  end
 
-  def add(attrs)
-    self << attrs
-  end
+    def add(attributes)
+      Array.wrap(attributes).map(&:to_s).each { |attribute| super(attribute) }
+    end
 
-  def self.add_variable(name, &block)
-    @@variables[name] = block
-    attr_reader name
-  end
+    def self.add_variable(name, &block)
+      @@variables[name] = block
+      attr_reader name
+    end
 
-  def self.always_accessible(&block)
-    @@always_accessible = block
-  end
+    def self.always_accessible(&block)
+      @@always_accessible = block
+    end
 
-  private
+    private
 
-  def reject_attrs!
-    @attrs.reject! { |k,v| !self.include?(k.to_sym) }
+    def reject_attributes!
+      @attributes.reject! { |k,v| !include?(k) }
+    end
   end
 end

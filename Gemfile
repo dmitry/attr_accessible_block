@@ -1,11 +1,5 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
-gem "activerecord", ">= 2.3.5"
+# Specify your gem's dependencies in attr_accessible_block.gemspec
+gemspec
 
-group :development do
-  gem "shoulda", ">= 0"
-  gem "bundler", "~> 1.0.0"
-  gem "jeweler", "~> 1.5.2"
-  gem 'sqlite3-ruby', '~> 1.3.2'
-  gem "rcov", ">= 0"
-end
