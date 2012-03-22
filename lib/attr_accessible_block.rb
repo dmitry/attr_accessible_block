@@ -5,9 +5,10 @@ module ActiveModel::MassAssignmentSecurity
     alias_method :old_attr_accessible, :attr_accessible
 
     def attr_accessible(*attributes, &block)
-      class_attribute(:attr_accessible_block)
+      class_attribute(:attr_accessible_blocks) unless respond_to?(:attr_accessible_blocks)
+      self.attr_accessible_blocks ||= []
 
-      self.attr_accessible_block = (block_given? ? block : proc { add attributes })
+      self.attr_accessible_blocks << (block_given? ? block : proc { add attributes })
 
       include InstanceMethods
     end
@@ -18,14 +19,14 @@ module ActiveModel::MassAssignmentSecurity
       end
 
       def mass_assignment_authorizer
-        WhiteListBlock.new(&self.class.attr_accessible_block)
+        WhiteListBlock.new(self.class.attr_accessible_blocks)
       end
     end
   end
 
   def attr_accessible?(attribute)
-    block = self.class.attr_accessible_block
-    attributes = WhiteListBlock.new(&block).sanitize({attribute => send(attribute)}, self)
+    blocks = self.class.attr_accessible_blocks
+    attributes = WhiteListBlock.new(blocks).sanitize({attribute => send(attribute)}, self)
     attributes.has_key?(attribute)
   end
 
@@ -48,7 +49,9 @@ module ActiveModel::MassAssignmentSecurity
       always_accessible = (@@always_accessible ? instance_eval(&@@always_accessible) : false)
 
       unless always_accessible
-        instance_eval(&@block)
+        @blocks.each do |block|
+          instance_eval(&block)
+        end
 
         flatten!
         reject_attributes!
@@ -57,8 +60,8 @@ module ActiveModel::MassAssignmentSecurity
       @attributes
     end
 
-    def initialize(&block)
-      @block = block
+    def initialize(blocks)
+      @blocks = blocks
       super
     end
 
