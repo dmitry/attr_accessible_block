@@ -1,5 +1,3 @@
-require "attr_accessible_block/version"
-
 module ActiveModel::MassAssignmentSecurity
   module ClassMethods
     alias_method :old_attr_accessible, :attr_accessible
