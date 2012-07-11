@@ -25,8 +25,9 @@ class BaseModel
 end
 
 class User < BaseModel
-  attributes %w(email password date role)
+  attributes %w(name email password date role)
 
+  attr_accessible :name
   attr_accessible :email, :password, :date
 
   @@user = User.new
@@ -55,6 +56,24 @@ describe AttrAccessibleBlock do
     user.email.should eq 'test@test.com'
     user.date.should eq '10'
     user.role.should be_nil
+  end
+
+  it "should support concatenation of standard static attr_accessible" do
+    user = User.new(:name => "User Test", :email => 'test@test.com', :password => 'test', 'date(i0)' => '10', :role => 'admin')
+    user.name.should eq 'User Test'
+    user.password.should eq 'test'
+    user.email.should eq 'test@test.com'
+    user.date.should eq '10'
+    user.role.should be_nil
+  end
+
+  it "should support #attr_accessible? with multiple attr_accessible" do
+    user = User.new(:name => "User Test", :email => 'test@test.com', :password => 'test', 'date(i0)' => '10', :role => 'admin')
+    user.attr_accessible?(:name).should be_true
+    user.attr_accessible?(:email).should be_true
+    user.attr_accessible?(:password).should be_true
+    user.attr_accessible?(:date).should be_true
+    user.attr_accessible?(:role).should be_false
   end
 
   it "should have standard static attr_accessible that always accessible" do
