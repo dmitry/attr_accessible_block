@@ -3,7 +3,7 @@ AttrAccessibleBlock 0.3.1
 
 [![travis-ci status](https://secure.travis-ci.org/dmitry/attr_accessible_block.png)](http://travis-ci.org/dmitry/attr_accessible_block)
 
-Tested on Rubies: 1.8.7, 1.9.2 and 1.9.3, thanks to Travis!
+Tested on Rubies: 1.9.2, 1.9.3, 2.0.0, thanks to Travis!
 
 > If you need same functionallity for the Rails 2.3 or Rails 3.0, then use v0.2.2, it's fully tested and ready for this oldies. New version is total rewrite of the previous plugin, but API is the same, so it's easy to migrate if needed.
 
