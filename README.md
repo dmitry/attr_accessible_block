@@ -1,7 +1,7 @@
 AttrAccessibleBlock 0.3.1
 =========================
 
-[![travis-ci status](https://secure.travis-ci.org/dmitry/attr_accessible_block.png)](http://travis-ci.org/dmitry/attr_accessible_block)
+[![travis-ci status](https://secure.travis-ci.org/dmitry/attr_accessible_block.png)](http://travis-ci.org/dmitry/attr_accessible_block) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dmitry/attr_accessible_block/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Tested on Rubies: 1.9.2, 1.9.3, 2.0.0, thanks to Travis!
 
