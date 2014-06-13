@@ -1,4 +1,4 @@
-AttrAccessibleBlock 0.3.1
+AttrAccessibleBlock 0.3.2
 =========================
 
 [![travis-ci status](https://secure.travis-ci.org/dmitry/attr_accessible_block.png)](http://travis-ci.org/dmitry/attr_accessible_block) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dmitry/attr_accessible_block/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
